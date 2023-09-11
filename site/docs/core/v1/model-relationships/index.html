@@ -1,0 +1,4071 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Implementing and utilizing relationships in LdapRecord">
+      
+      
+      
+      
+        <link rel="prev" href="../model-mutators/">
+      
+      
+        <link rel="next" href="../model-scopes/">
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
+    
+    
+      
+        <title>Model Relationships - My Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.eebd395e.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#models-relationships" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="My Docs" class="md-header__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            My Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Model Relationships
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="My Docs" class="md-nav__button md-logo" aria-label="My Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    My Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        LdapRecord-Docs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Docs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Docs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Core
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Core
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_1" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1_1" id="__nav_2_1_1_label" tabindex="0">
+          V1
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_1_1">
+          <span class="md-nav__icon md-icon"></span>
+          V1
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../caching/" class="md-nav__link">
+        Query Caching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-queries/" class="md-nav__link">
+        Common Queries
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connections/" class="md-nav__link">
+        Connecting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../credits/" class="md-nav__link">
+        Credits
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../events/" class="md-nav__link">
+        Events
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logging/" class="md-nav__link">
+        Logging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model-api/" class="md-nav__link">
+        Model API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model-mutators/" class="md-nav__link">
+        Model Accessors & Mutators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Model Relationships
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Model Relationships
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-relationships" class="md-nav__link">
+    Defining Relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Defining Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#has-one" class="md-nav__link">
+    Has One
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#has-many" class="md-nav__link">
+    Has Many
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#has-many-inverse" class="md-nav__link">
+    Has Many (Inverse)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#has-many-in" class="md-nav__link">
+    Has Many In
+  </a>
+  
+    <nav class="md-nav" aria-label="Has Many In">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#important-note-for-querying" class="md-nav__link">
+    Important Note for Querying
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#querying-relationships" class="md-nav__link">
+    Querying Relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Querying Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recursive-queries" class="md-nav__link">
+    Recursive Queries
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attaching-detatching-relationships" class="md-nav__link">
+    Attaching &amp; Detatching Relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Attaching & Detatching Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#attaching" class="md-nav__link">
+    Attaching
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detach" class="md-nav__link">
+    Detach
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checking-relationship-existence" class="md-nav__link">
+    Checking Relationship Existence
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model-scopes/" class="md-nav__link">
+        Models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models/" class="md-nav__link">
+        Models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../searching-api/" class="md-nav__link">
+        Searching API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../searching/" class="md-nav__link">
+        Searching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../versioning/" class="md-nav__link">
+        Versioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_1_22" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1_1_22" id="__nav_2_1_1_22_label" tabindex="0">
+          Active directory
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_1_22_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1_1_22">
+          <span class="md-nav__icon md-icon"></span>
+          Active directory
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../active-directory/groups/" class="md-nav__link">
+        Group Management (Active Directory)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../active-directory/users/" class="md-nav__link">
+        User Management (Active Directory)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1_2" id="__nav_2_1_2_label" tabindex="0">
+          V2
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          V2
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/authentication/" class="md-nav__link">
+        Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/caching/" class="md-nav__link">
+        Query Caching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/common-queries/" class="md-nav__link">
+        Common Queries
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/configuration/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/connections/" class="md-nav__link">
+        Connecting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/credits/" class="md-nav__link">
+        Credits
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/events/" class="md-nav__link">
+        Events
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/filter-parser/" class="md-nav__link">
+        Filter Parser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/helpers/" class="md-nav__link">
+        Helpers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/license/" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/logging/" class="md-nav__link">
+        Logging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/model-api/" class="md-nav__link">
+        Model API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/model-mutators/" class="md-nav__link">
+        Model Accessors & Mutators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/model-relationships/" class="md-nav__link">
+        Model Relationships
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/model-scopes/" class="md-nav__link">
+        Models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/model-searching/" class="md-nav__link">
+        Model Searching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/models/" class="md-nav__link">
+        Models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/searching-api/" class="md-nav__link">
+        Searching API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/searching/" class="md-nav__link">
+        Searching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/testing/" class="md-nav__link">
+        Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/upgrading/" class="md-nav__link">
+        v2 Upgrade Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/versioning/" class="md-nav__link">
+        Versioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_2_26" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1_2_26" id="__nav_2_1_2_26_label" tabindex="0">
+          Active directory
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_2_26_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1_2_26">
+          <span class="md-nav__icon md-icon"></span>
+          Active directory
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/active-directory/groups/" class="md-nav__link">
+        Group Management (Active Directory)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v2/active-directory/users/" class="md-nav__link">
+        User Management (Active Directory)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1_3" id="__nav_2_1_3_label" tabindex="0">
+          V3
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1_3">
+          <span class="md-nav__icon md-icon"></span>
+          V3
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/authentication/" class="md-nav__link">
+        Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/caching/" class="md-nav__link">
+        Query Caching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/common-queries/" class="md-nav__link">
+        Common Queries
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/configuration/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/connections/" class="md-nav__link">
+        Connecting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/credits/" class="md-nav__link">
+        Credits
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/events/" class="md-nav__link">
+        Events
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/filter-parser/" class="md-nav__link">
+        Filter Parser
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/helpers/" class="md-nav__link">
+        Helpers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/license/" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/logging/" class="md-nav__link">
+        Logging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/model-api/" class="md-nav__link">
+        Model API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/model-mutators/" class="md-nav__link">
+        Model Accessors & Mutators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/model-relationships/" class="md-nav__link">
+        Model Relationships
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/model-scopes/" class="md-nav__link">
+        Models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/model-searching/" class="md-nav__link">
+        Model Searching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/models/" class="md-nav__link">
+        Models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/release-notes/" class="md-nav__link">
+        Release Notes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/searching-api/" class="md-nav__link">
+        Searching API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/searching/" class="md-nav__link">
+        Searching
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/testing-api/" class="md-nav__link">
+        Testing API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/testing/" class="md-nav__link">
+        Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/upgrading/" class="md-nav__link">
+        Upgrade to LdapRecord v3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/versioning/" class="md-nav__link">
+        Versioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_3_28" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1_3_28" id="__nav_2_1_3_28_label" tabindex="0">
+          Active directory
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_3_28_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1_3_28">
+          <span class="md-nav__icon md-icon"></span>
+          Active directory
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/active-directory/groups/" class="md-nav__link">
+        Group Management (Active Directory)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../v3/active-directory/users/" class="md-nav__link">
+        User Management (Active Directory)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Laravel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Laravel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+          V1
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          V1
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/debugging/" class="md-nav__link">
+        Debugging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/events/" class="md-nav__link">
+        Events
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/importing/" class="md-nav__link">
+        Importing Objects
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/license/" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/lumen/" class="md-nav__link">
+        LdapRecord-Lumen
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/testing/" class="md-nav__link">
+        Testing with LdapRecord
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/usage/" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/versioning/" class="md-nav__link">
+        Versioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_1_12" id="__nav_2_2_1_12_label" tabindex="0">
+          Auth
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_2_1_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_1_12">
+          <span class="md-nav__icon md-icon"></span>
+          Auth
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/" class="md-nav__link">
+        Authentication Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/configuration/" class="md-nav__link">
+        Authentication Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/importing/" class="md-nav__link">
+        Importing Users
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/installation/" class="md-nav__link">
+        Authentication Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/laravel-jetstream/" class="md-nav__link">
+        Using LdapRecord-Laravel with Laravel Jetstream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/laravel-ui/" class="md-nav__link">
+        Authentication Using Laravel UI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/multi-domain/" class="md-nav__link">
+        Multi-Domain Authentication Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/quickstart-laravel-ui/" class="md-nav__link">
+        Authentication Quickstart Using Laravel UI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/quickstart/" class="md-nav__link">
+        Authentication Quickstart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/restricting-sign-in/" class="md-nav__link">
+        Restricting Sign In
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/setup/" class="md-nav__link">
+        Authentication Setup & Features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/testing/" class="md-nav__link">
+        Testing Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1_12_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_1_12_13" id="__nav_2_2_1_12_13_label" tabindex="0">
+          Sso
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_2_2_1_12_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_1_12_13">
+          <span class="md-nav__icon md-icon"></span>
+          Sso
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/sso/" class="md-nav__link">
+        Pass-through / SSO Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v1/auth/sso/setup/" class="md-nav__link">
+        Pass-through / SSO Authentication Setup
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+          V2
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          V2
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/configuration/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/debugging/" class="md-nav__link">
+        Debugging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/events/" class="md-nav__link">
+        Events
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/extending/" class="md-nav__link">
+        Extending
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/importing/" class="md-nav__link">
+        Importing Objects
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/license/" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/lumen/" class="md-nav__link">
+        LdapRecord-Lumen
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/testing/" class="md-nav__link">
+        Testing with LdapRecord
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/upgrading/" class="md-nav__link">
+        Upgrading from v1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/usage/" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/versioning/" class="md-nav__link">
+        Versioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2_14" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_2_14" id="__nav_2_2_2_14_label" tabindex="0">
+          Auth
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_2_2_14_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_2_14">
+          <span class="md-nav__icon md-icon"></span>
+          Auth
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/" class="md-nav__link">
+        Authentication Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/configuration/" class="md-nav__link">
+        Authentication Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/multi-domain/" class="md-nav__link">
+        Multi-Domain Authentication Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/restricting-login/" class="md-nav__link">
+        Restricting Login
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/testing/" class="md-nav__link">
+        Testing Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2_14_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_2_14_6" id="__nav_2_2_2_14_6_label" tabindex="0">
+          Database
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_2_2_2_14_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_2_14_6">
+          <span class="md-nav__icon md-icon"></span>
+          Database
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/database/" class="md-nav__link">
+        Database Authentication Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/database/configuration/" class="md-nav__link">
+        Database Authentication Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/database/importing/" class="md-nav__link">
+        Importing Users
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/database/installation/" class="md-nav__link">
+        Database Authentication Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/database/laravel-breeze/" class="md-nav__link">
+        Database Authentication Using Laravel Breeze
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/database/laravel-jetstream/" class="md-nav__link">
+        Using LdapRecord-Laravel with Laravel Jetstream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/database/laravel-sanctum/" class="md-nav__link">
+        Using LdapRecord-Laravel with Laravel Sanctum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/database/laravel-ui/" class="md-nav__link">
+        Database Authentication Using Laravel UI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/database/logging-in/" class="md-nav__link">
+        Database Authentication Setup
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2_14_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_2_14_7" id="__nav_2_2_2_14_7_label" tabindex="0">
+          Plain
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_2_2_2_14_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_2_14_7">
+          <span class="md-nav__icon md-icon"></span>
+          Plain
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/plain/" class="md-nav__link">
+        Plain Authentication Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/plain/configuration/" class="md-nav__link">
+        Plain Authentication Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/plain/laravel-breeze/" class="md-nav__link">
+        Plain Authentication Using Laravel Breeze
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/plain/laravel-jetstream/" class="md-nav__link">
+        Using LdapRecord-Laravel with Laravel Jetstream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/plain/laravel-ui/" class="md-nav__link">
+        Plain Authentication Using Laravel UI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/plain/logging-in/" class="md-nav__link">
+        Plain Authentication Setup
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2_14_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_2_14_8" id="__nav_2_2_2_14_8_label" tabindex="0">
+          Sso
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_2_2_2_14_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_2_14_8">
+          <span class="md-nav__icon md-icon"></span>
+          Sso
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/sso/" class="md-nav__link">
+        Pass-through / SSO Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v2/auth/sso/setup/" class="md-nav__link">
+        Pass-through / SSO Authentication Setup
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_3" id="__nav_2_2_3_label" tabindex="0">
+          V3
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          V3
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/configuration/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/debugging/" class="md-nav__link">
+        Debugging
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/events/" class="md-nav__link">
+        Events
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/extending/" class="md-nav__link">
+        Extending
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/importing/" class="md-nav__link">
+        Importing Objects
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/license/" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/lumen/" class="md-nav__link">
+        LdapRecord-Lumen
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/release-notes/" class="md-nav__link">
+        Release Notes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/testing/" class="md-nav__link">
+        Testing with LdapRecord
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/upgrading/" class="md-nav__link">
+        Upgrade to LdapRecord-Laravel v3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/usage/" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/versioning/" class="md-nav__link">
+        Versioning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_3_15" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_3_15" id="__nav_2_2_3_15_label" tabindex="0">
+          Auth
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_2_3_15_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_3_15">
+          <span class="md-nav__icon md-icon"></span>
+          Auth
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/" class="md-nav__link">
+        Authentication Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/configuration/" class="md-nav__link">
+        Authentication Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/multi-domain/" class="md-nav__link">
+        Multi-Domain Authentication Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/restricting-login/" class="md-nav__link">
+        Restricting Login
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/testing/" class="md-nav__link">
+        Testing Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_3_15_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_3_15_6" id="__nav_2_2_3_15_6_label" tabindex="0">
+          Database
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_2_2_3_15_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_3_15_6">
+          <span class="md-nav__icon md-icon"></span>
+          Database
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/database/" class="md-nav__link">
+        Database Authentication Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/database/configuration/" class="md-nav__link">
+        Database Authentication Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/database/importing/" class="md-nav__link">
+        Importing Users
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/database/installation/" class="md-nav__link">
+        Database Authentication Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/database/laravel-breeze/" class="md-nav__link">
+        Database Authentication Using Laravel Breeze
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/database/laravel-jetstream/" class="md-nav__link">
+        Using LdapRecord-Laravel with Laravel Jetstream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/database/laravel-sanctum/" class="md-nav__link">
+        Using LdapRecord-Laravel with Laravel Sanctum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/database/laravel-ui/" class="md-nav__link">
+        Database Authentication Using Laravel UI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/database/logging-in/" class="md-nav__link">
+        Database Authentication Setup
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_3_15_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_3_15_7" id="__nav_2_2_3_15_7_label" tabindex="0">
+          Plain
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_2_2_3_15_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_3_15_7">
+          <span class="md-nav__icon md-icon"></span>
+          Plain
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/plain/" class="md-nav__link">
+        Plain Authentication Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/plain/configuration/" class="md-nav__link">
+        Plain Authentication Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/plain/laravel-breeze/" class="md-nav__link">
+        Plain Authentication Using Laravel Breeze
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/plain/laravel-jetstream/" class="md-nav__link">
+        Using LdapRecord-Laravel with Laravel Jetstream
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/plain/laravel-ui/" class="md-nav__link">
+        Plain Authentication Using Laravel UI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/plain/logging-in/" class="md-nav__link">
+        Plain Authentication Setup
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_3_15_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_3_15_8" id="__nav_2_2_3_15_8_label" tabindex="0">
+          Sso
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_2_2_3_15_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2_3_15_8">
+          <span class="md-nav__icon md-icon"></span>
+          Sso
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/sso/" class="md-nav__link">
+        Pass-through / SSO Authentication
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../laravel/v3/auth/sso/setup/" class="md-nav__link">
+        Pass-through / SSO Authentication Setup
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-relationships" class="md-nav__link">
+    Defining Relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Defining Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#has-one" class="md-nav__link">
+    Has One
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#has-many" class="md-nav__link">
+    Has Many
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#has-many-inverse" class="md-nav__link">
+    Has Many (Inverse)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#has-many-in" class="md-nav__link">
+    Has Many In
+  </a>
+  
+    <nav class="md-nav" aria-label="Has Many In">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#important-note-for-querying" class="md-nav__link">
+    Important Note for Querying
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#querying-relationships" class="md-nav__link">
+    Querying Relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Querying Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recursive-queries" class="md-nav__link">
+    Recursive Queries
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attaching-detatching-relationships" class="md-nav__link">
+    Attaching &amp; Detatching Relationships
+  </a>
+  
+    <nav class="md-nav" aria-label="Attaching & Detatching Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#attaching" class="md-nav__link">
+    Attaching
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detach" class="md-nav__link">
+    Detach
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checking-relationship-existence" class="md-nav__link">
+    Checking Relationship Existence
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="models-relationships">Models: Relationships</h1>
+<h2 id="introduction">Introduction</h2>
+<p>LDAP records often contain attributes that reference other LDAP records in your directory. An
+example of this would be the <code>member</code> attribute on LDAP groups that contain a list of
+distinguished names whom are members of the group.</p>
+<p>Using LdapRecord relationships, we can define what models contain references to other records
+and easily retrieve the referenced models to perform operations upon. There are several
+relationship types that LdapRecord supports:</p>
+<table>
+<thead>
+<tr>
+<th>Relationship</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#has-one">Has One</a></td>
+<td>Indicates a one-to-one relation, such as a user having one manager</td>
+</tr>
+<tr>
+<td><a href="#has-many">Has Many</a></td>
+<td>Indicates a one-to-many relation, such as a user having many groups</td>
+</tr>
+<tr>
+<td><a href="#has-many-inverse">Has Many (Inverse)</a></td>
+<td>Indicates an inverse one-to-many relation, such as a group having many members</td>
+</tr>
+<tr>
+<td><a href="#has-many-in">Has Many In</a></td>
+<td>Indicates a one-to-many relation, but with virtual attributes that cannot be modified</td>
+</tr>
+</tbody>
+</table>
+<h2 id="defining-relationships">Defining Relationships</h2>
+<h3 id="has-one">Has One</h3>
+<p>A has one relationship is a basic relationship to work with. An example of a "has one" relationship would be
+a <code>User</code> having one <code>manager</code>. To define this relationship, we place a <code>manager()</code> method on our <code>User</code>
+model, and call the <code>hasOne()</code> method and return the result:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\Model;
+
+class User extends Model
+{
+    /**
+     * Retrieve the manager of the current user.
+     */
+    public function manager()
+    {
+        return $this-&gt;hasOne(User::class, 'manager');
+    }
+}
+</code></pre>
+<p>The first argument that is passed into the relation is the name of the related model.
+The second is the LDAP attribute on the <em>current</em> user that contains the
+relationships distinguished name.</p>
+<p>If the relationships attribute you are defining does not contain a distinguished name,
+you can alter this and define a <em>foreign key</em> using the third parameter. For example,
+if our manager attribute actually contains a <code>uid</code>, we can change this so the
+related model is retrieved by a UID, instead of a distinguished name:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\Model;
+
+class User extends Model
+{
+    /**
+     * Retrieve the manager of the current user.
+     */
+    public function manager()
+    {
+        return $this-&gt;hasOne(User::class, 'manager', 'uid');
+    }
+}
+</code></pre>
+<h3 id="has-many">Has Many</h3>
+<p>Defining a has many relationship indicates that the model can be apart of
+many of the given model.</p>
+<p>For example, a <code>User</code> "has many" <code>groups</code>:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\Model;
+
+class User extends Model
+{
+    /**
+     * Retrieve the groups the user is apart of.
+     */
+    public function groups()
+    {
+        return $this-&gt;hasMany(Group::class, 'member');
+    }
+}
+</code></pre>
+<p>In the above example, LdapRecord will construct a query to locate all of
+the groups that the user is apart of using the users distinguished name.
+This users distinguished name will automatically be escaped to
+be able to properly locate all of the groups.</p>
+<p>For example, this is the query filter that will be used in the search:</p>
+<pre><code class="language-text">(member=cn\3dJohn Doe\2cdc\3dacme\2cdc\3dorg)
+</code></pre>
+<p>If you're using an alternate LDAP server or a different attribute to locate
+group membership, you may change the relation key. For example, you may
+want to use <code>uniquemember</code> for this relationship:</p>
+<pre><code class="language-php">/**
+ * Retrieve the groups the user is apart of.
+ */
+public function groups()
+{
+    return $this-&gt;hasMany(Group::class, 'uniquemember');
+}
+</code></pre>
+<p>You may also define a <em>foreign key</em> in third parameter if the attribute
+you are using is not a distinguished name.</p>
+<h3 id="has-many-inverse">Has Many (Inverse)</h3>
+<p>Now that we have setup a <code>User</code> model that can access of their groups,
+lets define a <code>Group</code> model to be able to access its members.</p>
+<p>Since an LDAP group can contain various types of objects (such as
+contacts, users, and other groups), we must pass in an array of
+models that are potential members of the group. This allows
+the relationship to properly create the models that are
+returned from the query results.</p>
+<blockquote>
+<p>LdapRecord will return plain <code>Entry</code> models when
+it cannot locate the correct model in the given array.</p>
+</blockquote>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\Model;
+
+class Group extends Model
+{
+    /**
+     * Retrieve the members of the group.
+     */
+    public function members()
+    {
+        return $this-&gt;hasMany([
+            Group::class, User::class, Contact::class
+        ], 'memberof')-&gt;using($this, 'member');
+    }
+}
+</code></pre>
+<blockquote>
+<p>For brevity, we have not shown the creation of the <code>Contact</code> model.</p>
+</blockquote>
+<p>You can see from the above example, we have passed an array of models
+that are possible members of the group. The difference of this
+definition is the usage of the <code>using()</code> method.</p>
+<p>Since LDAP does not offer bi-directional relationships, we must add the
+<code>using()</code> method. This method defines which model and attribute
+to use for attaching and detaching related models.</p>
+<p>In this case, we pass in <code>$this</code> to indicate that the current model
+instance (the <code>Group</code>) contains the <code>member</code> attribute to add and
+remove models you pass into the <code>attach()</code> and <code>detach()</code> methods.</p>
+<p>This method is paramount to be able to properly utilize this relationship.</p>
+<p>When querying the above relationship, LdapRecord will construct the following filter:</p>
+<pre><code class="language-text">(memberof=cn\3dAccounting\2cdc\3dacme\2cdc\3dorg)
+</code></pre>
+<h3 id="has-many-in">Has Many In</h3>
+<p>The has many in relationship allows you to retrieve related models from
+the given parent models <a href="https://ldapwiki.com/wiki/Virtual%20Attribute">virtual attribute</a>
+such as <code>memberof</code>.</p>
+<blockquote>
+<p>Since this relationship uses virtual attributes, you cannot
+use <code>attach()</code> or <code>detach()</code> methods. This also means that
+for each entry that is contained in the virtual attribute,
+they will be queried for individually which can be very
+resource intensive depending on the group size.</p>
+</blockquote>
+<p>Lets define a <code>groups()</code> relationship that utilizes the <code>hasManyIn()</code> method:</p>
+<pre><code class="language-php">&lt;?php
+
+use LdapRecord\Models\Model;
+
+class User extends Model
+{
+    public function groups()
+    {
+        return $this-&gt;hasManyIn(Group::class, 'memberof');
+    }
+}
+</code></pre>
+<h4 id="important-note-for-querying">Important Note for Querying</h4>
+<p>When using the above relationship from query results, you must ensure
+you select the LDAP property you have defined as the <em>foreign key</em>
+in the relationship. This attribute contains the values needed to
+locate the related models.</p>
+<p>For example, the following relationship query below will return no results
+because we have explicitly requested attributes <strong>excluding</strong> <code>memberof</code>:</p>
+<pre><code class="language-php">// Selecting only the 'cn', and 'sn' attributes:
+$user = User::select(['cn', 'sn'])-&gt;find('cn=John Doe,dc=acme,dc=org');
+
+// Returns an empty collection.
+$groups = $user-&gt;groups()-&gt;get();
+</code></pre>
+<h2 id="querying-relationships">Querying Relationships</h2>
+<p>LdapRecord relationships also serve as <a href="/docs/core/v1/searching">query builders</a>.
+This means you can chain query builder methods onto relationship methods to add
+constraints to the relationship query prior to retrieving the results from
+your directory.</p>
+<p>For example, lets define a <code>User</code> model that can be a member of many groups:</p>
+<pre><code class="language-php">&lt;?php
+
+use App\Group;
+use LdapRecord\Models\Model;
+
+class User extends Model
+{
+    /**
+     * Retrieve groups that the current user is apart of.
+     */
+    public function groups()
+    {
+        return $this-&gt;hasMany(Group::class, 'member');
+    }
+}
+</code></pre>
+<p>Now, lets retrieve a user's groups, but only return those groups that have a common name starting with 'Admin':</p>
+<pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
+
+$adminGroups = $user-&gt;groups()-&gt;whereStartsWith('cn', 'Admin')-&gt;get();
+</code></pre>
+<blockquote>
+<p>By default, querying relations will not include recursive results. More on this below.</p>
+</blockquote>
+<h3 id="recursive-queries">Recursive Queries</h3>
+<p>To request all of the relationships results, such as nested groups in groups, call
+the <code>recursive()</code> method, prior to retrieving results via <code>get()</code>:</p>
+<pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
+
+$allGroups = $user-&gt;groups()-&gt;recursive()-&gt;get();
+</code></pre>
+<blockquote>
+<p>Be careful when calling <code>recursive</code> on large sets of group memberships.
+If you are not careful, you could run out of memory due to thousands
+of models being returned.</p>
+</blockquote>
+<p>The <code>recursive</code> method sets a flag on the LdapRecord relationship indicating
+you would like recursive results included (groups of groups).</p>
+<p>Recursive results are gathered by first retrieving the groups that the user is
+a member of, then retrieving the groups that are members of each resulting
+parent group. This means an LDAP search query is executed for each group
+that your user is apart of.</p>
+<p>Circular group dependencies are rejected automatically to prevent infinite looping.</p>
+<h2 id="attaching-detatching-relationships">Attaching &amp; Detatching Relationships</h2>
+<p>Using relationships you define, you can easily attach and detach related models from each other.
+For example, you may want to attach a <code>Group</code> to a <code>User</code>, or vice-versa.</p>
+<h3 id="attaching">Attaching</h3>
+<p>Using the above relationship examples, lets walk through attaching a user to a group:</p>
+<pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
+$group = Group::find('cn=Accounting,dc=acme,dc=org');
+
+// Attaching a group to a user:
+$user-&gt;groups()-&gt;attach($user);
+
+// Attaching a user to a group:
+$group-&gt;members()-&gt;attach($user);
+</code></pre>
+<p>You may also use the <code>attachMany()</code> method to attach many models at once.</p>
+<p>For this example, let's say we have an organizational unit that contains groups all new users must be apart of:</p>
+<pre><code class="language-php">$ou = OrganizationalUnit::find('ou=Groups,dc=acme,dc=org');
+
+$groups = Group::in($ou)-&gt;get();
+
+$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$user-&gt;groups()-&gt;attachMany($groups);
+</code></pre>
+<p>As you can see above, we took a complex LDAP operation and completed it in just 4 lines of code.</p>
+<h3 id="detach">Detach</h3>
+<p>Using the above relationship examples, lets walk through detaching a user from a group:</p>
+<pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
+
+// Retrieve the first group that the user is apart of:
+$group = $user-&gt;groups()-&gt;get()-&gt;first();
+
+$user-&gt;groups()-&gt;detach($group);
+</code></pre>
+<p>You may also want to detach a user from all groups, if for example they are
+leaving the company and you it is apart of your off-boarding process.</p>
+<p>You may accomplish this task by using the <code>detachAll()</code> method:</p>
+<pre><code class="language-php">$user = User::find('cn=John Doe,ou=Users,dc=acme,dc=org');
+
+$user-&gt;groups()-&gt;detachAll();
+</code></pre>
+<h2 id="checking-relationship-existence">Checking Relationship Existence</h2>
+<p>To check if a model exists inside of a relationship, use the <code>exists()</code> relationship method.</p>
+<blockquote>
+<p>If you're using Active Directory and are simply looking to check if a user is
+inside of a particular group, utilize the <code>Model::whereMemberOf</code> method
+that is available on all Active Directory models to locate users
+whom are members of that group.</p>
+</blockquote>
+<p>For example, lets determine if a <code>User</code> is a member of a <code>Group</code>:</p>
+<pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
+$group = Group::find('cn=Accounting,dc=acme,dc=org');
+
+if ($user-&gt;groups()-&gt;exists($group)) {
+    // This user is a member of the 'Accounting' group.
+}
+</code></pre>
+<p>This method can be used on <strong>all</strong> relationship types.</p>
+<p>For another example, lets determine if a <code>User</code> is a <code>manager</code> of another:</p>
+<pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
+$manager = User::find('cn=Jane Doe,dc=acme,dc=org');
+
+if ($user-&gt;manager()-&gt;exists($manager)) {
+    // Jane Doe is John Doe's manager.
+}
+</code></pre>
+<p>You can also determine if the model has any groups or members by simply calling <code>exists()</code>:</p>
+<pre><code class="language-php">$user = User::find('cn=John Doe,dc=acme,dc=org');
+
+if ($user-&gt;manager()-&gt;exists()) {
+    // This user has a manager.
+}
+
+if ($user-&gt;groups()-&gt;exists()) {
+    // This user is a member of at least one group.
+}
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>
